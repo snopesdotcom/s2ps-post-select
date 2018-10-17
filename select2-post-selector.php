@@ -55,8 +55,8 @@ class S2PS_Post_Select_Instance {
 		<p>
 			<label for="<?php echo $this->form_field_name; ?>"><?php echo $this->form_field_label; ?></label>
 
-			<input style="width: 400px;" type="hidden" name="<?php echo $this->form_field_name; ?>" class="s2ps-post-selector" data-post-type="<?php echo $this->item_post_type; ?>" data-s2ps-post-select-field-id="<?php echo $this->field_id; ?>" value="<?php echo $processed_item_ids; ?>" />
-			<div id="<?php echo $this->form_field_name; ?>_container">
+			<input style="width: 400px;" type="hidden" name="<?php echo esc_attr( $this->form_field_name ); ?>" class="s2ps-post-selector" data-post-type="<?php echo esc_attr( $this->item_post_type ); ?>" data-s2ps-post-select-field-id="<?php echo esc_attr( $this->field_id ); ?>" value="<?php echo esc_attr( $processed_item_ids ); ?>" />
+			<div id="<?php echo esc_attr( $this->form_field_name ); ?>_container">
 				<img class="thumbnail" style="display: inline-block; width: 100px; height: 100px; float: left;" />
 				<div class="td-container" style="display: inline-block; vertical-align: top; padding: 8px 20px; width: calc(100% - 150px);">
 					<div class="title" style="font-weight: bold;"></div>
@@ -102,10 +102,10 @@ class S2PS_Post_Select_Instance {
 			// plugin handles multiple selects)
 			if ( strpos( $_POST[ $this->form_field_name ], ',' ) === false ) {
 				// No comma, must be single value - still needs to be in an array for now
-				$post_ids = array( $_POST[ $this->form_field_name ] );
+				$post_ids = array( sanitize_text_field( wp_unslash( $_POST[ $this->form_field_name ] ) ) );
 			} else {
 				// There is a comma so it's explodable
-				$post_ids = explode( ',', $_POST[ $this->form_field_name ] );
+				$post_ids = explode( ',', sanitize_text_field( wp_unslash( $_POST[ $this->form_field_name ] ) ) );
 			}
 			// Delete all existing entries
 			delete_post_meta( $post->ID, $this->meta_key );
